@@ -439,6 +439,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Active List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#live-bidask-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live Bid/Ask Chart
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -658,6 +675,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Active List">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#live-bidask-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live Bid/Ask Chart
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -964,6 +998,14 @@
 </table>
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
+<h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>
+<p>The top of the Order Book panel is a live two-line chart for the active YES or NO token:</p>
+<ul>
+<li><strong>Green <code>B</code> line:</strong> highest available bid.</li>
+<li><strong>Red <code>A</code> line:</strong> lowest available ask.</li>
+<li><strong>Refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
+</ul>
+<p>The chart retains up to 120 samples for the selected token and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible until the next response arrives. The depth table underneath remains scrollable when Order Book has focus.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
 <li><strong>Statusline:</strong> current mode, active list + position, pending work, refresh cadence.</li>
