@@ -1009,7 +1009,7 @@
 <li><strong>Red <code>A</code> line:</strong> lowest available ask.</li>
 <li><strong>Refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
 </ul>
-<p>Press Enter or Tab until Order Book has focus, then use <code>[</code> and <code>]</code> to select a 30-second, 1-minute, 5-minute, or 15-minute rolling range. The chart maps samples to their actual local receipt time, labels the price and time axes, and shows best bid, best ask, spread, and whether the latest sample is current. It retains enough samples for the 15-minute range and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible and mark the chart <code>WAIT</code>. The depth table underneath remains scrollable when Order Book has focus.</p>
+<p>Press Enter or Tab until Order Book has focus, then use <code>[</code> and <code>]</code> to select a 30-second, 1-minute, 5-minute, or 15-minute rolling range. The chart maps samples to their actual local receipt time and renders each trace as a continuous terminal line, rather than point markers. It labels the price and time axes, and shows best bid, best ask, spread, and whether the latest sample is current. It retains enough samples for the 15-minute range and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible and mark the chart <code>WAIT</code>. The depth table underneath remains scrollable when Order Book has focus.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
 <li><strong>Statusline:</strong> current mode, active list + position, pending work, refresh cadence.</li>
