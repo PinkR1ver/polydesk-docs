@@ -799,7 +799,7 @@
 </table>
 <p><strong>Focus indicator:</strong> the left navigation border is bright while navigation owns focus. Selected market rows are highlighted only when their navigation pane owns focus. Enter or Tab can temporarily move focus to Market Detail or Order Book for scrolling; Esc returns to navigation focus.</p>
 <h2 id="command-mode">Command Mode</h2>
-<p>Press <code>:</code> to enter command mode. The command picker uses fuzzy matching and shows a vertical suggestion popup. <code>Tab</code> cycles suggestions, Up/Down moves through suggestions or recalls command history when the buffer is empty, Enter runs the selected command, and Esc cancels command mode.</p>
+<p>Press <code>:</code> to enter command mode. The command picker uses fuzzy matching and shows a vertical suggestion popup. <code>Tab</code> cycles suggestions, Up/Down moves through suggestions and scrolls the list when needed, Enter runs the selected command, and Esc cancels command mode. A command with no match remains visible with an explicit error prompt until it is submitted or cancelled.</p>
 <p>Command names support aliases and unique-prefix abbreviations. For example, <code>:s</code>, <code>:search</code>, and a unique fuzzy match for <code>search</code> resolve to the same command.</p>
 <h3 id="core-commands">Core Commands</h3>
 <table>
