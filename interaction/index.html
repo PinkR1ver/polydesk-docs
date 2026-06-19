@@ -776,6 +776,10 @@
 <td>In Watchlist/Candidates: select a market. In right-side focus: scroll content</td>
 </tr>
 <tr>
+<td><code>[</code> / <code>]</code></td>
+<td>When Order Book has focus, decrease / increase the live-chart time range</td>
+</tr>
+<tr>
 <td><code>g</code> / <code>G</code></td>
 <td>First / last market in the focused market pane</td>
 </tr>
@@ -999,13 +1003,13 @@
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
 <h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>
-<p>The top of the Order Book panel is a live two-line chart for the active YES or NO token:</p>
+<p>The top of the Order Book panel is a time-scaled live two-line chart for the active YES or NO token:</p>
 <ul>
 <li><strong>Green <code>B</code> line:</strong> highest available bid.</li>
 <li><strong>Red <code>A</code> line:</strong> lowest available ask.</li>
 <li><strong>Refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
 </ul>
-<p>The chart retains up to 120 samples for the selected token and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible until the next response arrives. The depth table underneath remains scrollable when Order Book has focus.</p>
+<p>Press Enter or Tab until Order Book has focus, then use <code>[</code> and <code>]</code> to select a 30-second, 1-minute, 5-minute, or 15-minute rolling range. The chart maps samples to their actual local receipt time, labels the price and time axes, and shows best bid, best ask, spread, and whether the latest sample is current. It retains enough samples for the 15-minute range and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible and mark the chart <code>WAIT</code>. The depth table underneath remains scrollable when Order Book has focus.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
 <li><strong>Statusline:</strong> current mode, active list + position, pending work, refresh cadence.</li>
