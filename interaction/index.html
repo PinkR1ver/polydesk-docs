@@ -867,6 +867,16 @@
 <td>Show the NO order book</td>
 </tr>
 <tr>
+<td><code>:chart</code></td>
+<td><code>:ch</code></td>
+<td>Replace the market context with the full live bid/ask chart</td>
+</tr>
+<tr>
+<td><code>:book</code></td>
+<td><code>:ob</code>, <code>:orderbook</code></td>
+<td>Return to the Market Detail and Order Book depth layout</td>
+</tr>
+<tr>
 <td><code>:market</code></td>
 <td><code>:m</code>, <code>:open</code></td>
 <td>Show selected market identifiers</td>
@@ -1010,6 +1020,7 @@
 <li><strong>Refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
 </ul>
 <p>Press Enter or Tab until Order Book has focus, then use <code>[</code> and <code>]</code> to select a 30-second, 1-minute, 5-minute, or 15-minute rolling range. The chart maps samples to their actual local receipt time and renders each trace as a continuous terminal line, rather than point markers. It labels the price and time axes, and shows best bid, best ask, spread, and whether the latest sample is current. It retains enough samples for the 15-minute range and resets when the selected market or YES/NO side changes. It is polling, not a websocket feed; slow CLI/API responses may leave the previous sample visible and mark the chart <code>WAIT</code>. When CLOB reports that a token has no order book, the panel shows an unavailable state and waits 60 seconds before retrying automatically; use <code>:ref</code> to retry immediately. The depth table underneath remains scrollable when Order Book has focus.</p>
+<p>Use <code>:chart</code> for a full-height chart workspace. It replaces both Market Detail and Order Book depth with the live bid/ask chart so that the time and price axes have the full right-side workspace. Use <code>:book</code> to restore the standard market detail and depth layout. The chart remains terminal-rendered, so it is numerically time/price accurate but does not emulate Matplotlib's pixel-level anti-aliasing.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
 <li><strong>Statusline:</strong> current mode, active list + position, pending work, refresh cadence.</li>
