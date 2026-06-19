@@ -777,7 +777,7 @@
 </tr>
 <tr>
 <td><code>[</code> / <code>]</code></td>
-<td>When the full Chart workspace has focus, decrease / increase its CLOB history range</td>
+<td>When the full Chart workspace has focus, decrease / increase its Bid/Ask sampling range</td>
 </tr>
 <tr>
 <td><code>g</code> / <code>G</code></td>
@@ -867,9 +867,9 @@
 <td>Show the NO order book</td>
 </tr>
 <tr>
-<td><code>:chart [interval] [fidelity]</code></td>
+<td><code>:chart [30s\|1m\|5m\|15m]</code></td>
 <td><code>:ch</code></td>
-<td>Replace the market context with a full chart of CLOB history and live bid/ask overlays</td>
+<td>Replace the market context with a full rolling Best Bid / Best Ask chart</td>
 </tr>
 <tr>
 <td><code>:book</code></td>
@@ -1013,14 +1013,13 @@
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
 <h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>
-<p>The full Chart workspace combines historical CLOB prices with live order-book quotes for the active YES or NO token:</p>
+<p>The full Chart workspace plots the locally retained Best Bid / Best Ask samples for the active YES or NO token:</p>
 <ul>
 <li><strong>Green <code>B</code> line:</strong> highest available bid.</li>
 <li><strong>Red <code>A</code> line:</strong> lowest available ask.</li>
-<li><strong>History line:</strong> direct read-only <code>polymarket clob price-history &lt;token&gt;</code> data.</li>
 <li><strong>Live refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
 </ul>
-<p>Run <code>:chart</code> to open the full workspace. It uses <code>plotext</code> to render a terminal-native graph with labelled axes, a historical price line, and green/red Best Bid/Ask overlays. <code>:chart 1h 30</code> requests a specific history interval and fidelity; without arguments it uses <code>1d 30</code>. With Chart focused, <code>[</code> and <code>]</code> switch among <code>1h</code>, <code>6h</code>, <code>1d</code>, <code>1w</code>, and <code>max</code> and reload history in the background. Use <code>:book</code> to restore the depth table. The graph is terminal-rendered rather than a Matplotlib bitmap, but its time and price coordinates use the source values directly. Historical endpoint errors do not stop live quote updates. When CLOB reports that a token has no order book, the panel shows an unavailable state and waits 60 seconds before retrying automatically; use <code>:ref</code> to retry immediately.</p>
+<p>Run <code>:chart</code> to open the full workspace. It uses <code>plotext</code> to render a terminal-native graph with labelled axes and green/red Best Bid/Ask lines. <code>:chart 5m</code> selects an explicit rolling range; without an argument it uses <code>1m</code>. With Chart focused, <code>[</code> and <code>]</code> switch among <code>30s</code>, <code>1m</code>, <code>5m</code>, and <code>15m</code>. Samples arrive every 2 seconds and remain available for the selected token until the market or YES/NO side changes. Use <code>:book</code> to restore the depth table. The graph is terminal-rendered rather than a Matplotlib bitmap, but its time and price coordinates use the source values directly. When CLOB reports that a token has no order book, the panel shows an unavailable state and waits 60 seconds before retrying automatically; use <code>:ref</code> to retry immediately.</p>
 <p>Use <code>:chart</code> for a full-height chart workspace. It replaces both Market Detail and Order Book depth with the live bid/ask chart so that the time and price axes have the full right-side workspace. Use <code>:book</code> to restore the standard market detail and depth layout. The chart remains terminal-rendered, so it is numerically time/price accurate but does not emulate Matplotlib's pixel-level anti-aliasing.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
