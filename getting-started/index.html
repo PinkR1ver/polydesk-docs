@@ -673,7 +673,7 @@
 <h1 id="getting-started">Getting Started</h1>
 <h2 id="python-environment">Python Environment</h2>
 <p>Use Python 3.11 or newer. You can manage the environment with <code>venv</code>, conda, <code>uv</code>, or another local Python environment tool.</p>
-<p>The TUI runtime currently uses only the Python standard library. Install <code>requirements.txt</code> only when you want to preview or build the documentation site:</p>
+<p>Install the runtime and documentation dependencies:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </code></pre></div>
 <h2 id="run-the-tui">Run the TUI</h2>
@@ -691,9 +691,9 @@
 <li>Use left/right to move between navigation panes: Watchlist, Candidates, Orders, Account, Strategies.</li>
 <li>Use <code>1</code>–<code>5</code> to jump directly to a navigation pane.</li>
 <li>When Watchlist or Candidates is focused, up/down selects a market and the right-side detail/order book update automatically.</li>
-<li>The Order Book panel polls the active token every 2 seconds and plots its best bid and best ask as green/red, time-scaled live lines. If one side has no available level, that trace remains blank.</li>
-<li>Press Enter or Tab to focus Order Book, then use <code>[</code> / <code>]</code> to select the 30s, 1m, 5m, or 15m chart range. Use up/down to scroll the depth table and Esc to return to navigation-pane movement.</li>
-<li>Run <code>:chart</code> for a full-height live chart workspace; run <code>:book</code> to return to the depth table.</li>
+<li>The Order Book panel polls the active token every 2 seconds and refreshes its best bid, best ask, and depth levels. If one side has no available level, it remains empty.</li>
+<li>Press Enter or Tab to focus Order Book, then use up/down to scroll the depth table and Esc to return to navigation-pane movement.</li>
+<li>Run <code>:chart</code> for a full-height chart with direct price history and live Bid/Ask overlays. Use <code>[</code> / <code>]</code> to change its history range, or specify it explicitly, for example <code>:chart 1h 30</code>. Run <code>:book</code> to return to the depth table.</li>
 <li>The focused navigation pane has the highlighted selection.</li>
 <li>Press <code>?</code> to see all keybindings.</li>
 </ol>

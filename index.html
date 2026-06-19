@@ -551,7 +551,7 @@
 <p>It is starting as a read-only TUI focused on market discovery, watchlists, order books, and fast keyboard workflows. The long-term direction is broader: account views, orders, positions, rewards, trading workflows, and pluggable quantitative scripts with explicit safety boundaries.</p>
 <h2 id="current-shape">Current Shape</h2>
 <ul>
-<li>Curses-based terminal UI.</li>
+<li>Curses-based terminal UI with a <code>plotext</code> full-chart workspace.</li>
 <li>Empty watchlist on startup.</li>
 <li>Search and recommendation candidates loaded on demand.</li>
 <li>Watchlist, order-book, CLOB detail, price history, discovery, and text queries run in background workers.</li>
@@ -564,7 +564,7 @@
 <li>Search markets with <code>:search &lt;query&gt;</code> or load recommendations with <code>:recommend</code>.</li>
 <li>Add interesting candidates to a local in-memory watchlist with <code>:add &lt;n|id|slug&gt;</code>.</li>
 <li>Browse Market Detail and Order Book for the active YES or NO token.</li>
-<li>Track the active token's best bid and best ask as two time-scaled live lines above the order-book depth table, with selectable 30s to 15m rolling ranges.</li>
+<li>Use <code>:chart</code> to plot direct CLOB price history with live best-bid and best-ask overlays in the full right-side workspace.</li>
 <li>Press Enter or Tab to focus right-side detail/output panes, then scroll them with Up/Down or mouse wheel; press Esc to return to navigation.</li>
 <li>Run read-only CLOB commands such as <code>:mid</code>, <code>:spread</code>, <code>:history</code>, <code>:negrisk</code>, and <code>:detail</code>.</li>
 <li>Explore active events, event markets, series, and tags with <code>:events</code>, <code>:event</code>, <code>:series</code>, and <code>:tags</code>.</li>
