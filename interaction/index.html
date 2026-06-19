@@ -453,6 +453,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#depth-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Depth Ladder
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -684,6 +695,17 @@
     <span class="md-ellipsis">
       
         Live Bid/Ask Chart
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#depth-ladder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Depth Ladder
       
     </span>
   </a>
@@ -1020,7 +1042,9 @@
 <li><strong>Cyan <code>History</code> line:</strong> historical trade prices from CLOB. It is not a reconstructed historical bid or ask.</li>
 <li><strong>Live refresh interval:</strong> 2 seconds, using read-only <code>polymarket clob book &lt;token&gt; -o json</code> polling.</li>
 </ul>
-<p>Run <code>:chart</code> to open the full workspace. It uses <code>plotext</code> to render a terminal-native graph with a cyan trade-price baseline and green/red Best Bid/Ask lines. <code>:chart 5m</code> selects an explicit rolling range; without an argument it uses <code>15m</code>. With Chart focused, <code>[</code> and <code>]</code> switch among <code>30s</code>, <code>1m</code>, <code>5m</code>, and <code>15m</code>. Samples arrive every 2 seconds and remain available for the selected token until the market or YES/NO side changes. The history worker requests a dense one-hour CLOB price series, then the chart keeps only the current range. Use <code>:book</code> to restore the depth table. The graph is terminal-rendered rather than a Matplotlib bitmap, but its time and price coordinates use the source values directly. When CLOB reports that a token has no order book, the panel shows an unavailable state and waits 60 seconds before retrying automatically; use <code>:ref</code> to retry immediately.</p>
+<p>Run <code>:chart</code> to open the full workspace. It uses <code>plotext</code> Braille markers to render a thin terminal-native graph with a cyan trade-price baseline and green/red Best Bid/Ask lines. <code>:chart 5m</code> selects an explicit rolling range; without an argument it uses <code>15m</code>. With Chart focused, <code>[</code> and <code>]</code> switch among <code>30s</code>, <code>1m</code>, <code>5m</code>, and <code>15m</code>. Samples arrive every 2 seconds and remain available for the selected token until the market or YES/NO side changes. The history worker requests a dense one-hour CLOB price series, then the chart keeps only the current range. Use <code>:book</code> to restore the depth table. The graph is terminal-rendered rather than a Matplotlib bitmap, but its time and price coordinates use the source values directly. When CLOB reports that a token has no order book, the panel shows an unavailable state and waits 60 seconds before retrying automatically; use <code>:ref</code> to retry immediately.</p>
+<h3 id="depth-ladder">Depth Ladder</h3>
+<p>The standard Order Book view presents the best asks and bids side by side on each depth row. Ask size/price appear on the left in red; bid price/size appear on the right in green. This keeps the two sides comparable without scrolling between separate sections.</p>
 <p>Use <code>:chart</code> for a full-height chart workspace. It replaces both Market Detail and Order Book depth with the live bid/ask chart so that the time and price axes have the full right-side workspace. Use <code>:book</code> to restore the standard market detail and depth layout. The chart remains terminal-rendered, so it is numerically time/price accurate but does not emulate Matplotlib's pixel-level anti-aliasing.</p>
 <h2 id="bottom-ui">Bottom UI</h2>
 <ul>
