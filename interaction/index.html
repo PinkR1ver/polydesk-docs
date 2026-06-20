@@ -1126,6 +1126,11 @@
 <td><code>--ready</code>, <code>--pending</code></td>
 <td>Require a ready market, or a pending/deploying market.</td>
 </tr>
+<tr>
+<td>Exact ID</td>
+<td><code>-id &lt;market_id&gt;</code>, <code>--id &lt;market_id&gt;</code></td>
+<td>Load one market directly by exact API ID, including closed markets; do not add a keyword query.</td>
+</tr>
 </tbody>
 </table>
 <p>Flags in the same group are mutually exclusive; flags in different groups are intersections. <code>-t</code> and <code>-x</code> are only meaningful for open markets, so they cannot be combined with <code>-c</code>. The official CLI search command has no lifecycle filter, so every explicit filter uses a bounded, highest-volume market list and applies the query and filter intersection locally. An unfiltered open search continues to use the CLI search endpoint.</p>
