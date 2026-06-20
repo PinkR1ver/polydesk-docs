@@ -1132,13 +1132,18 @@
 <td>Require a ready market, or a pending/deploying market.</td>
 </tr>
 <tr>
+<td>Resolution</td>
+<td><code>--resolved</code>, <code>--unresolved</code></td>
+<td>Require a resolved market, or a closed market still awaiting resolution.</td>
+</tr>
+<tr>
 <td>Exact ID</td>
 <td><code>-id &lt;market_id&gt;</code>, <code>--id &lt;market_id&gt;</code></td>
 <td>Load one market directly by exact API ID, including closed markets; do not add a keyword query.</td>
 </tr>
 </tbody>
 </table>
-<p>Flags in the same group are mutually exclusive; flags in different groups are intersections. <code>-t</code> and <code>-x</code> are only meaningful for open markets, so they cannot be combined with <code>-c</code>. The official CLI search command has no lifecycle filter, so every explicit filter uses a bounded, highest-volume market list and applies the query and filter intersection locally. An unfiltered open search continues to use the CLI search endpoint.</p>
+<p>Flags in the same group are mutually exclusive; flags in different groups are intersections. <code>-t</code> and <code>-x</code> are only meaningful for open markets, so they cannot be combined with <code>-c</code>. The official CLI search command has no lifecycle filter, so every explicit filter scans up to 10 pages of 100 markets and applies the query and filter intersection locally. It stops as soon as it has enough matches, retaining only the requested candidates. An unfiltered open search continues to use the CLI search endpoint.</p>
 <p>Candidates default to <code>30</code> results. Use <code>:limit 45</code> to change the current session's limit within <code>1–100</code>; running it after a search immediately repeats that search at the new limit. The left Candidates list scrolls to keep the selected market visible.</p>
 <p>When the first command token is still ambiguous, Command mode keeps its full fuzzy suggestion list. Once a command plus arguments uniquely identifies a command, such as <code>:s fal</code>, the picker collapses to <code>search</code> and shows that command's exact usage line. Entering <code>:search</code>, <code>:s</code>, or <code>:find</code> opens a compact contextual filter panel under the usage line, with lifecycle, trading, access, order-book, archive, and deployment flags grouped by their mutual-exclusion category.</p>
 <h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>

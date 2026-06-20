@@ -736,6 +736,7 @@
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>:s -a bitcoin
 </code></pre></div>
 <p><code>-c</code> searches closed markets and <code>-a</code> searches all market states. Open markets remain the default; <code>-o</code> makes that filter explicit. Filters can be combined: use <code>-t</code> for fully tradable markets, <code>-x</code> for open markets that are not accepting orders, <code>-r</code> or <code>--unrestricted</code> for access status, <code>--book</code> / <code>--no-book</code> for CLOB availability, <code>--archived</code> / <code>-arch</code> / <code>--unarchived</code> for catalogue status, and <code>--ready</code> / <code>--pending</code> for deployment status.</p>
+<p>Use <code>--resolved</code> for completed, resolved markets and <code>--unresolved</code> for closed markets still awaiting resolution. For historical closed searches, Polydesk scans up to 1,000 markets in pages and retains only matching candidates.</p>
 <p>Use <code>:search -id &lt;market_id&gt;</code> (or <code>--id</code>) for an exact market lookup. It calls the market-get endpoint directly rather than searching a bounded list.</p>
 <h3 id="discovery">Discovery</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:events
