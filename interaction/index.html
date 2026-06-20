@@ -487,6 +487,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#two-sided-maker-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two-Sided Maker Spread
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery-workspace" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -801,6 +812,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#two-sided-maker-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two-Sided Maker Spread
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery-workspace" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1060,6 +1082,11 @@
 <td>Discard the reviewed limit order</td>
 </tr>
 <tr>
+<td><code>:spread &lt;width-cents&gt; &lt;shares&gt;</code></td>
+<td><code>:sprd</code></td>
+<td>Create a live two-sided maker-spread preview for the selected token</td>
+</tr>
+<tr>
 <td><code>:refresh</code></td>
 <td><code>:ref</code>, <code>:reload</code></td>
 <td>Refresh the current market view</td>
@@ -1231,6 +1258,9 @@
 <h3 id="limit-order-confirmation">Limit-Order Confirmation</h3>
 <p><code>:bid &lt;price&gt; &lt;shares&gt;</code> and <code>:buy &lt;price&gt; &lt;shares&gt;</code> create a BUY limit-order preview. <code>:ask &lt;price&gt; &lt;shares&gt;</code> and <code>:sell &lt;price&gt; &lt;shares&gt;</code> create a SELL preview. The selected market and the current YES/NO outcome determine the token. Price must be a finite decimal strictly between <code>0</code> and <code>1</code>; shares must be a positive finite decimal.</p>
 <p>The preview replaces the Orders context and makes the action explicit: side, outcome, market, wallet alias, price in dollars and cents, shares, notional, and current bid/ask/last. It sends nothing. Only <code>:confirm</code> starts <code>polymarket -o json clob create-order</code>; <code>:abort</code> discards the preview. A pending submission cannot be confirmed twice, and a changed active wallet requires a new preview. Market orders and cancellation remain unavailable.</p>
+<h3 id="two-sided-maker-spread">Two-Sided Maker Spread</h3>
+<p><code>:spread &lt;width-cents&gt; &lt;shares&gt;</code> uses a new live bid/ask snapshot for the selected YES/NO token. It calculates the midpoint and makes a bid price by rounding downward and an ask price by rounding upward to a 1c tick. The Strategy pane reports live prices, requested/quoted width, buy reservation, and sell inventory requirement.</p>
+<p>The strategy is intentionally manual. <code>:spread bid</code> or <code>:spread ask</code> sends one proposed leg into the ordinary Orders preview, where <code>:confirm</code> remains mandatory. The CLOB batch command only supports same-side orders, so Polydesk never attempts to submit its buy and sell legs as an assumed atomic pair. The strategy tracks successfully submitted legs and blocks duplicate submission of the same leg within one preview.</p>
 <h3 id="discovery-workspace">Discovery Workspace</h3>
 <p>Series, Events, and Tags use the dedicated Discovery workspace (<code>6</code>) rather than rendering below Candidates. Its list owns Up/Down and Enter: selecting a Series opens a bounded Event page, selecting an Event loads its Markets into Candidates, and selecting a Tag opens its Events. Press Esc from a Series Event page to return to the preceding Series page and its selected row; press Esc again from the root Discovery page to return to the navigation pane that opened it. A search or recommendation immediately returns focus to Candidates without deleting the current Discovery page.</p>
 <p>Discovery retains only one current page of at most 25 lightweight items plus, only while drilling from a Series to Events, one 25-item return snapshot. Each root discovery request replaces that state; no unbounded navigation history, Series payload cache, or duplicate Market list is kept in memory.</p>
