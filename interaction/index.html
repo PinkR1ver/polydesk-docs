@@ -1093,7 +1093,7 @@
 </tr>
 <tr>
 <td>Catalogue</td>
-<td><code>--archived</code>, <code>--unarchived</code></td>
+<td><code>--archived</code> / <code>-arch</code>, <code>--unarchived</code></td>
 <td>Filter by archive visibility.</td>
 </tr>
 <tr>
@@ -1104,6 +1104,7 @@
 </tbody>
 </table>
 <p>Flags in the same group are mutually exclusive; flags in different groups are intersections. <code>-t</code> and <code>-x</code> are only meaningful for open markets, so they cannot be combined with <code>-c</code>. The official CLI search command has no lifecycle filter, so every explicit filter uses a bounded, highest-volume market list and applies the query and filter intersection locally. An unfiltered open search continues to use the CLI search endpoint.</p>
+<p>When the first command token is still ambiguous, Command mode keeps its full fuzzy suggestion list. Once a command plus arguments uniquely identifies a command, such as <code>:s fal</code>, the picker collapses to <code>search</code> and shows that command's exact usage line.</p>
 <h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>
 <p>The full Chart workspace combines available trade-price history with locally retained Best Bid / Best Ask samples for the active YES or NO token:</p>
 <ul>
