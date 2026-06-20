@@ -377,6 +377,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#closed-market-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closed Market Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -613,6 +624,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#closed-market-research" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closed Market Research
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -708,20 +730,25 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>:detail
 </code></pre></div>
 <p>This searches for active Bitcoin markets, adds the first candidate to Watchlist, switches to the YES order book, and opens read-only CLOB data in the right-side output area.</p>
+<h3 id="closed-market-research">Closed Market Research</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>:s -c NBA Finals 2025
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>:s -a bitcoin
+</code></pre></div>
+<p><code>-c</code> searches closed markets and <code>-a</code> searches all market states. Open markets remain the default; <code>-o</code> makes that filter explicit.</p>
 <h3 id="discovery">Discovery</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>:events
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>:event &lt;event_id&gt;
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>:series
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>:tags
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:events
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>:event &lt;event_id&gt;
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>:series
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>:tags
 </code></pre></div>
 <p><code>:events</code> shows active events in the left discovery area. <code>:event &lt;event_id&gt;</code> loads the event's markets into Candidates so they can be browsed and added to Watchlist.</p>
 <h3 id="community-and-data-checks">Community And Data Checks</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>:lb
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>:profile &lt;address&gt;
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>:comments market &lt;market_id&gt;
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>:holders
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>:oi
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>:evolume &lt;event_id&gt;
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>:lb
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>:profile &lt;address&gt;
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>:comments market &lt;market_id&gt;
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>:holders
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>:oi
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>:evolume &lt;event_id&gt;
 </code></pre></div>
 <p>These commands are public/read-only. <code>:holders</code> and <code>:oi</code> default to the selected market's condition ID when one is available.</p>
 <h2 id="read-only-scope">Read-Only Scope</h2>
