@@ -856,9 +856,9 @@
 </thead>
 <tbody>
 <tr>
-<td><code>:search [-o\|-c\|-a] &lt;query&gt;</code></td>
+<td><code>:search [filters] &lt;query&gt;</code></td>
 <td><code>:s</code>, <code>:find</code></td>
-<td>Search open, closed, or all market candidates</td>
+<td>Search markets using composable lifecycle and availability filters</td>
 </tr>
 <tr>
 <td><code>:recommend</code></td>
@@ -1057,12 +1057,53 @@
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
 <h3 id="market-search-filters">Market Search Filters</h3>
-<p><code>:search &lt;query&gt;</code> searches open, active markets. Lifecycle filters go before the query:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>:search -c 2025 NBA Finals
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>:search -a bitcoin
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>:search -o election
+<p><code>:search &lt;query&gt;</code> searches open, active markets. Filters go before the query and can be combined across groups:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>:search -t --unrestricted election
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>:search -c --archived &quot;NBA Finals&quot;
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>:search -a -r --no-book bitcoin
 </code></pre></div>
-<p><code>-c</code> / <code>--closed</code> searches closed markets, <code>-a</code> / <code>--all</code> searches every lifecycle state, and <code>-o</code> / <code>--open</code> explicitly selects the default open-only search. The official CLI search command has no lifecycle filter, so closed and all searches retrieve a bounded market list and apply the query locally; they prioritize the highest-volume results in that list.</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Flags</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lifecycle</td>
+<td><code>-o</code> / <code>--open</code>, <code>-c</code> / <code>--closed</code>, <code>-a</code> / <code>--all</code></td>
+<td>Open is the default; choose closed or every lifecycle state explicitly.</td>
+</tr>
+<tr>
+<td>Trading</td>
+<td><code>-t</code> / <code>--tradable</code>, <code>-x</code> / <code>--suspended</code></td>
+<td>Tradable requires active, open, accepting orders, and an enabled order book. Suspended means open but not accepting orders.</td>
+</tr>
+<tr>
+<td>Access</td>
+<td><code>-r</code> / <code>--restricted</code>, <code>--unrestricted</code></td>
+<td>Include only region/compliance-restricted markets, or only unrestricted markets.</td>
+</tr>
+<tr>
+<td>Order book</td>
+<td><code>--book</code>, <code>--no-book</code></td>
+<td>Require an enabled CLOB order book, or its absence.</td>
+</tr>
+<tr>
+<td>Catalogue</td>
+<td><code>--archived</code>, <code>--unarchived</code></td>
+<td>Filter by archive visibility.</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td><code>--ready</code>, <code>--pending</code></td>
+<td>Require a ready market, or a pending/deploying market.</td>
+</tr>
+</tbody>
+</table>
+<p>Flags in the same group are mutually exclusive; flags in different groups are intersections. <code>-t</code> and <code>-x</code> are only meaningful for open markets, so they cannot be combined with <code>-c</code>. The official CLI search command has no lifecycle filter, so every explicit filter uses a bounded, highest-volume market list and applies the query and filter intersection locally. An unfiltered open search continues to use the CLI search endpoint.</p>
 <h3 id="live-bidask-chart">Live Bid/Ask Chart</h3>
 <p>The full Chart workspace combines available trade-price history with locally retained Best Bid / Best Ask samples for the active YES or NO token:</p>
 <ul>
