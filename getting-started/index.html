@@ -741,8 +741,8 @@
 <li>Run <code>:chart</code> for a full-height chart. It defaults to a 15-minute window with historical trade price plus live Bid/Ask/Deal overlays. Use <code>[</code> / <code>]</code> to move through common ranges, or specify any valid duration, for example <code>:chart 10m</code>, <code>:chart 2h</code>, or <code>:chart 3d</code>. Use <code>:chart max</code> or <code>:chart all</code> for all available history. Run <code>:book</code> to return to the depth table.</li>
 <li>The focused navigation pane has the highlighted selection.</li>
 <li>Press <code>x</code> while Watchlist owns navigation focus to remove its selected market. <code>:rm &lt;n|id|slug&gt;</code> remains available.</li>
-<li>Optionally save a public account identity with <code>:account &lt;0x-address&gt; [label]</code>. This command writes public display metadata only and does not grant wallet permission.</li>
-<li>To import the Polymarket CLI configuration from the local <code>.env</code>, run <code>:import-env</code>. It is an explicit action and stores the allowlisted values as encrypted local state; it does not enable trading.</li>
+<li>Add one or more numbered wallets to <code>.env</code> using the included <code>.env.example</code> template.</li>
+<li>Run <code>:wallets</code>, then <code>:wallet 1</code> or <code>:wallet &lt;alias&gt;</code> to select the active wallet. Run <code>:wallet reload</code> after editing <code>.env</code>.</li>
 <li>Press <code>?</code> to see all keybindings.</li>
 </ol>
 <h2 id="useful-read-only-workflows">Useful Read-Only Workflows</h2>
@@ -781,10 +781,22 @@
 <p>These commands are public/read-only. <code>:holders</code> and <code>:oi</code> default to the selected market's condition ID when one is available.</p>
 <h2 id="local-state">Local State</h2>
 <p>Polydesk stores its local SQLite database at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default. Set <code>POLYDESK_DB_PATH</code> to use another local path, for example for a separate workspace or test run.</p>
-<p>The database contains watchlist display snapshots and an optional public EVM address plus label. <code>:import-env [path]</code> explicitly imports only <code>POLYMARKET_PRIVATE_KEY</code>, <code>POLYMARKET_SIGNATURE_TYPE</code>, <code>POLYMARKET_RPC_URL</code>, and <code>POLYMARKET_CLOB_HOST</code>; the credential JSON is Fernet-encrypted before being written to SQLite. Its separate local encryption key has <code>0600</code> permissions beside the database. The importer does not evaluate dotenv expressions or execute any file content.</p>
+<p>The database contains watchlist display snapshots, optional legacy public account metadata, and the active wallet alias. It does not contain private keys, signing credentials, or RPC/CLOB configuration.</p>
+<p>Wallet configuration is read directly from <code>.env</code> at runtime without sourcing, evaluating, or executing its contents. The standard numbered format is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>POLYDESK_WALLET_NUM=2
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>POLYDESK_WALLET_1=main
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>POLYDESK_WALLET_1_LABEL=Main trading
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>POLYDESK_WALLET_1_ADDRESS=0x...
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>POLYDESK_WALLET_1_PRIVATE_KEY=0x...
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>POLYDESK_WALLET_1_SIGNATURE_TYPE=proxy
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>POLYDESK_WALLET_2=research
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>POLYDESK_WALLET_2_PRIVATE_KEY=0x...
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>POLYDESK_WALLET_2_SIGNATURE_TYPE=proxy
+</code></pre></div>
+<p><code>POLYMARKET_RPC_URL</code> and <code>POLYMARKET_CLOB_HOST</code> provide global defaults; per-wallet <code>POLYDESK_WALLET_&lt;n&gt;_RPC_URL</code> and <code>_CLOB_HOST</code> override them. Existing single-wallet <code>POLYMARKET_PRIVATE_KEY</code> configuration remains available as a wallet named <code>default</code>.</p>
 <p>The current TUI still does not sign, create orders, approve tokens, or mutate a wallet. The imported credential record is reserved for an explicitly confirmed future authenticated workflow. Use <code>:account clear</code> to remove the saved public account identity.</p>
 <h2 id="read-only-scope">Read-Only Scope</h2>
-<p>The current TUI does not load <code>.env</code> automatically and does not submit orders. Apart from explicit encrypted credential import, it only calls read-only Polymarket CLI commands for markets, order books, CLOB data, discovery, community data, and public on-chain-style data exposed by the CLI.</p>
+<p>The current TUI does not submit orders. It loads wallet configuration from <code>.env</code> only as data and only calls read-only Polymarket CLI commands for markets, order books, CLOB data, discovery, community data, and public on-chain-style data exposed by the CLI.</p>
 
 
 

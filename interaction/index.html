@@ -454,10 +454,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#credential-import" class="md-nav__link">
+  <a href="#numbered-wallets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Credential Import
+        Numbered Wallets
       
     </span>
   </a>
@@ -746,10 +746,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#credential-import" class="md-nav__link">
+  <a href="#numbered-wallets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Credential Import
+        Numbered Wallets
       
     </span>
   </a>
@@ -973,12 +973,17 @@
 <tr>
 <td><code>:account [&lt;0x-address&gt; [label]\|clear]</code></td>
 <td><code>:acct</code></td>
-<td>Show Account, save a public account identity, or clear it</td>
+<td>Show Account or maintain legacy public account metadata</td>
 </tr>
 <tr>
-<td><code>:import-env [path]</code></td>
-<td><code>:env</code></td>
-<td>Explicitly import allowlisted Polymarket CLI settings from a dotenv file into encrypted local storage</td>
+<td><code>:wallets</code></td>
+<td><code>:wals</code></td>
+<td>List numbered wallets from <code>.env</code></td>
+</tr>
+<tr>
+<td><code>:wallet &lt;number\|alias\|reload&gt;</code></td>
+<td><code>:wal</code></td>
+<td>Select the active wallet or reload <code>.env</code></td>
 </tr>
 <tr>
 <td><code>:refresh</code></td>
@@ -1142,9 +1147,10 @@
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Closed watched markets are marked <code>CLOSED</code> in red in the navigation list. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders and Strategies are routed read-only panes for now.</p>
 <h3 id="account-identity">Account Identity</h3>
-<p>The Account pane displays the optional local public address and label saved with <code>:account &lt;0x-address&gt; [label]</code>. It is deliberately an identity/configuration view, not an authenticated wallet view: it does not request a signature, access balances, or submit orders. <code>:account clear</code> removes the saved identity.</p>
-<h3 id="credential-import">Credential Import</h3>
-<p><code>:import-env [path]</code> explicitly reads <code>.env</code> by default and imports only the Polymarket CLI credential keys: <code>POLYMARKET_PRIVATE_KEY</code>, <code>POLYMARKET_SIGNATURE_TYPE</code>, <code>POLYMARKET_RPC_URL</code>, and <code>POLYMARKET_CLOB_HOST</code>. It parses the file as data only; it does not source, evaluate, or execute dotenv content. The values are encrypted with Fernet before storage in the local SQLite database; the separate local encryption key is created with <code>0600</code> permissions. The Account pane reports only whether encrypted credentials are present and never renders their values.</p>
+<p>The Account pane displays the currently selected dotenv wallet. It is deliberately an identity/configuration view, not an authenticated wallet view: it does not request a signature, access balances, or submit orders. <code>:account</code> remains as a compatibility fallback for public local metadata when no dotenv wallet is configured.</p>
+<h3 id="numbered-wallets">Numbered Wallets</h3>
+<p>Use <code>POLYDESK_WALLET_NUM</code> and numbered wallet fields in <code>.env</code>. Each <code>POLYDESK_WALLET_&lt;n&gt;</code> provides a stable alias, with <code>_PRIVATE_KEY</code> and <code>_SIGNATURE_TYPE</code> required. <code>_LABEL</code>, <code>_ADDRESS</code>, <code>_RPC_URL</code>, and <code>_CLOB_HOST</code> are optional. Global <code>POLYMARKET_RPC_URL</code> and <code>POLYMARKET_CLOB_HOST</code> act as endpoint defaults.</p>
+<p><code>:wallets</code> lists configured wallets. <code>:wallet 2</code> selects by one-based number and <code>:wallet research</code> selects by alias. <code>:wallet reload</code> re-reads <code>.env</code> after local edits. Parsing treats dotenv as data and never sources, evaluates, or executes it. The Account pane shows only alias, label, address, and configuration state; it never renders a private key.</p>
 <h3 id="discovery-workspace">Discovery Workspace</h3>
 <p>Series, Events, and Tags use the dedicated Discovery workspace (<code>6</code>) rather than rendering below Candidates. Its list owns Up/Down and Enter: selecting a Series opens a bounded Event page, selecting an Event loads its Markets into Candidates, and selecting a Tag opens its Events. Press Esc from a Series Event page to return to the preceding Series page and its selected row; press Esc again from the root Discovery page to return to the navigation pane that opened it. A search or recommendation immediately returns focus to Candidates without deleting the current Discovery page.</p>
 <p>Discovery retains only one current page of at most 25 lightweight items plus, only while drilling from a Series to Events, one 25-item return snapshot. Each root discovery request replaces that state; no unbounded navigation history, Series payload cache, or duplicate Market list is kept in memory.</p>
