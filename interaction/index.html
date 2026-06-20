@@ -443,6 +443,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#account-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery-workspace" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -713,6 +724,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#account-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Account Identity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#discovery-workspace" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -850,6 +872,10 @@
 <td>First / last market in the focused market pane</td>
 </tr>
 <tr>
+<td><code>x</code></td>
+<td>Remove the selected Watchlist market while Watchlist navigation has focus</td>
+</tr>
+<tr>
 <td><code>/</code></td>
 <td>Enter command mode with <code>search</code> prefilled</td>
 </tr>
@@ -921,6 +947,11 @@
 <td><code>:remove &lt;n|id|slug&gt;</code></td>
 <td><code>:rm</code>, <code>:delete</code></td>
 <td>Remove a watched market</td>
+</tr>
+<tr>
+<td><code>:account [&lt;0x-address&gt; [label]\|clear]</code></td>
+<td><code>:acct</code></td>
+<td>Show Account, save a public account identity, or clear it</td>
 </tr>
 <tr>
 <td><code>:refresh</code></td>
@@ -1082,7 +1113,9 @@
 </tbody>
 </table>
 <h2 id="active-list">Active List</h2>
-<p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
+<p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Closed watched markets are marked <code>CLOSED</code> in red in the navigation list. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders and Strategies are routed read-only panes for now.</p>
+<h3 id="account-identity">Account Identity</h3>
+<p>The Account pane displays the optional local public address and label saved with <code>:account &lt;0x-address&gt; [label]</code>. It is deliberately an identity/configuration view, not an authenticated wallet view: it does not load <code>.env</code>, request a signature, access balances, or store any secret. <code>:account clear</code> removes the saved identity.</p>
 <h3 id="discovery-workspace">Discovery Workspace</h3>
 <p>Series, Events, and Tags use the dedicated Discovery workspace (<code>6</code>) rather than rendering below Candidates. Its list owns Up/Down and Enter: selecting a Series opens a bounded Event page, selecting an Event loads its Markets into Candidates, and selecting a Tag opens its Events. Press Esc from a Series Event page to return to the preceding Series page and its selected row; press Esc again from the root Discovery page to return to the navigation pane that opened it. A search or recommendation immediately returns focus to Candidates without deleting the current Discovery page.</p>
 <p>Discovery retains only one current page of at most 25 lightweight items plus, only while drilling from a Series to Events, one 25-item return snapshot. Each root discovery request replaces that state; no unbounded navigation history, Series payload cache, or duplicate Market list is kept in memory.</p>

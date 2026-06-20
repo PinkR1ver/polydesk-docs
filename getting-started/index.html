@@ -415,6 +415,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#read-only-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -662,6 +673,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Local State
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#read-only-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -710,7 +732,7 @@
 <li>Run <code>:rec</code> to load recommended open-market candidates into the Candidates list.</li>
 <li>Candidates load up to 30 markets by default. Use <code>:limit &lt;1-100&gt;</code> to change the current session limit.</li>
 <li>Run <code>:c</code> or press <code>2</code> to focus Candidates, then use up/down in the left navigation column to browse.</li>
-<li>Run <code>:a 1</code> to add the first candidate to the Watchlist.</li>
+<li>Run <code>:a 1</code> to add the first candidate to the Watchlist. The watchlist is saved locally and restored on the next launch.</li>
 <li>Use left/right to move between navigation panes: Watchlist, Candidates, Orders, Account, Strategies, Discovery.</li>
 <li>Use <code>1</code>–<code>6</code> to jump directly to a navigation pane.</li>
 <li>When Watchlist or Candidates is focused, up/down selects a market and the right-side detail/order book update automatically.</li>
@@ -718,6 +740,8 @@
 <li>Press Enter or Tab to focus Order Book, then use up/down to scroll the depth table and Esc to return to navigation-pane movement.</li>
 <li>Run <code>:chart</code> for a full-height chart. It defaults to a 15-minute window with historical trade price plus live Bid/Ask/Deal overlays. Use <code>[</code> / <code>]</code> to move through common ranges, or specify any valid duration, for example <code>:chart 10m</code>, <code>:chart 2h</code>, or <code>:chart 3d</code>. Use <code>:chart max</code> or <code>:chart all</code> for all available history. Run <code>:book</code> to return to the depth table.</li>
 <li>The focused navigation pane has the highlighted selection.</li>
+<li>Press <code>x</code> while Watchlist owns navigation focus to remove its selected market. <code>:rm &lt;n|id|slug&gt;</code> remains available.</li>
+<li>Optionally save a public account identity with <code>:account &lt;0x-address&gt; [label]</code>. This is local display metadata only; no private key or wallet permission is stored.</li>
 <li>Press <code>?</code> to see all keybindings.</li>
 </ol>
 <h2 id="useful-read-only-workflows">Useful Read-Only Workflows</h2>
@@ -754,6 +778,9 @@
 <a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>:evolume &lt;event_id&gt;
 </code></pre></div>
 <p>These commands are public/read-only. <code>:holders</code> and <code>:oi</code> default to the selected market's condition ID when one is available.</p>
+<h2 id="local-state">Local State</h2>
+<p>Polydesk stores its local SQLite database at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default. Set <code>POLYDESK_DB_PATH</code> to use another local path, for example for a separate workspace or test run.</p>
+<p>The database contains watchlist display snapshots and an optional public EVM address plus label. It never stores a private key, signature, API key, order, or trading permission. Use <code>:account clear</code> to remove the saved account identity.</p>
 <h2 id="read-only-scope">Read-Only Scope</h2>
 <p>The current TUI does not load <code>.env</code>, does not read private keys, and does not submit orders. It only calls read-only Polymarket CLI commands for markets, order books, CLOB data, discovery, community data, and public on-chain-style data exposed by the CLI.</p>
 
