@@ -559,6 +559,7 @@
 <li>Does not approve tokens.</li>
 <li>Does not bridge, split, merge, or redeem CTF positions.</li>
 <li>Uses only read-only Polymarket CLI calls for market browsing, CLOB inspection, discovery, community data, and public data views.</li>
+<li>Uses authenticated CLOB reads only for <code>:orders</code> and <code>:trades</code>; these list orders/trades and do not mutate wallet or market state.</li>
 <li>Stores watchlist snapshots, optional public account metadata, and the active wallet alias in SQLite.</li>
 </ul>
 <h2 id="future-mutating-features">Future Mutating Features</h2>
@@ -573,6 +574,7 @@
 <h2 id="secret-handling">Secret Handling</h2>
 <p>Secrets belong only in local secret storage such as <code>.env</code> or the official Polymarket CLI config. They must never be committed, copied into docs, SQLite, or <code>.agents/</code>.</p>
 <p>Use numbered dotenv wallets for multiple accounts: <code>POLYDESK_WALLET_NUM</code>, <code>POLYDESK_WALLET_1</code>, and per-wallet <code>_PRIVATE_KEY</code>/<code>_SIGNATURE_TYPE</code> fields. <code>.env</code> is parsed as text only and never executed. Do not add API keys, session tokens, order payloads, or authenticated account responses to SQLite. The <code>credentials</code> table and companion key file from the earlier encrypted-import implementation are removed automatically at startup; <code>.env</code> is now the only Polydesk secret source.</p>
+<p>The Orders workspace passes the active wallet only to a single child-process environment for the authenticated read. Do not move those values into command-line arguments, background task status strings, logs, raw result caches, or persistent storage.</p>
 
 
 
