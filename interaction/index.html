@@ -443,6 +443,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#discovery-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery Workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#market-search-filters" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -702,6 +713,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#discovery-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discovery Workspace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#market-search-filters" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -800,8 +822,8 @@
 <td>Move focus to previous / next navigation pane when navigation owns focus</td>
 </tr>
 <tr>
-<td><code>1</code>–<code>5</code></td>
-<td>Jump directly to Watchlist, Candidates, Orders, Account, or Strategies</td>
+<td><code>1</code>–<code>6</code></td>
+<td>Jump directly to Watchlist, Candidates, Orders, Account, Strategies, or Discovery</td>
 </tr>
 <tr>
 <td>Enter / Tab</td>
@@ -998,7 +1020,7 @@
 <tr>
 <td><code>:series [limit]</code></td>
 <td><code>:ser</code></td>
-<td>List series</td>
+<td>Open the Discovery workspace with a bounded Series page</td>
 </tr>
 <tr>
 <td><code>:tags</code></td>
@@ -1008,7 +1030,7 @@
 <tr>
 <td><code>:disc</code></td>
 <td><code>:discovery</code></td>
-<td>Toggle the discovery view</td>
+<td>Focus the Discovery workspace</td>
 </tr>
 </tbody>
 </table>
@@ -1056,6 +1078,9 @@
 </table>
 <h2 id="active-list">Active List</h2>
 <p>When Watchlist or Candidates is focused, the right-side context view shows Market Detail and Order Book for the selected market. Search/recommend focuses Candidates; adding/removing markets returns focus to Watchlist when appropriate. Text output and price history temporarily occupy the lower right-side slot normally used by Order Book. Orders, Account, and Strategies are routed read-only panes for now.</p>
+<h3 id="discovery-workspace">Discovery Workspace</h3>
+<p>Series, Events, and Tags use the dedicated Discovery workspace (<code>6</code>) rather than rendering below Candidates. Its list owns Up/Down and Enter: selecting a Series opens a bounded Event page, selecting an Event loads its Markets into Candidates, and selecting a Tag opens its Events. A search or recommendation immediately returns focus to Candidates without deleting the current Discovery page.</p>
+<p>Discovery retains only one current page of at most 25 lightweight items. Each discovery request replaces that page; no navigation history, Series payload cache, or duplicate Market list is kept in memory.</p>
 <h3 id="market-search-filters">Market Search Filters</h3>
 <p><code>:search &lt;query&gt;</code> searches open, active markets. Filters go before the query and can be combined across groups:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>:search -t --unrestricted election
