@@ -555,7 +555,8 @@
 <ul>
 <li>Loads <code>.env</code> as runtime configuration data without sourcing or evaluating it.</li>
 <li>Never writes a private key, signature credential, or endpoint configuration to SQLite.</li>
-<li>Does not create or cancel orders.</li>
+<li>Creates a limit order only after an explicit in-app <code>:confirm</code> for a reviewed draft.</li>
+<li>Does not cancel orders.</li>
 <li>Does not approve tokens.</li>
 <li>Does not bridge, split, merge, or redeem CTF positions.</li>
 <li>Uses only read-only Polymarket CLI calls for market browsing, CLOB inspection, discovery, community data, and public data views.</li>
@@ -575,6 +576,7 @@
 <p>Secrets belong only in local secret storage such as <code>.env</code> or the official Polymarket CLI config. They must never be committed, copied into docs, SQLite, or <code>.agents/</code>.</p>
 <p>Use numbered dotenv wallets for multiple accounts: <code>POLYDESK_WALLET_NUM</code>, <code>POLYDESK_WALLET_1</code>, and per-wallet <code>_PRIVATE_KEY</code>/<code>_SIGNATURE_TYPE</code> fields. <code>.env</code> is parsed as text only and never executed. Do not add API keys, session tokens, order payloads, or authenticated account responses to SQLite. The <code>credentials</code> table and companion key file from the earlier encrypted-import implementation are removed automatically at startup; <code>.env</code> is now the only Polydesk secret source.</p>
 <p>The Orders workspace passes the active wallet only to a single child-process environment for the authenticated read. Do not move those values into command-line arguments, background task status strings, logs, raw result caches, or persistent storage.</p>
+<p>Limit-order preview is the mandatory mutation boundary. <code>:bid</code>/<code>:buy</code> and <code>:ask</code>/<code>:sell</code> only create an in-memory draft; they do not call the CLI. The preview shows the exact wallet, market, outcome, price, shares, and notional. <code>:confirm</code> is the only order-submission path and must submit the reviewed draft unchanged. Do not add automatic confirmation, market-order shortcuts, cancel operations, approvals, or chained wallet mutations without a separate explicit user confirmation design.</p>
 
 
 
