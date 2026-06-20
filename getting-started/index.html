@@ -443,17 +443,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#two-sided-maker-spread" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two-Sided Maker Spread
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#local-state" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -525,6 +514,33 @@
     
   
     Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Strategies
   
 
     
@@ -740,17 +756,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#two-sided-maker-spread" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Two-Sided Maker Spread
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#local-state" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -823,7 +828,7 @@
 <li>Run <code>:wallets</code>, then <code>:wallet 1</code> or <code>:wallet &lt;alias&gt;</code> to select the active wallet. Run <code>:wallet reload</code> after editing <code>.env</code>.</li>
 <li>Run <code>:orders</code> to load active open orders, or <code>:trades</code> for authenticated trade history. Use <code>:ref</code> in the Orders pane to refresh the selected view.</li>
 <li>Build a limit-order preview with <code>:bid &lt;price&gt; &lt;shares&gt;</code> or <code>:ask &lt;price&gt; &lt;shares&gt;</code>. Inspect the preview, then use <code>:confirm</code> to submit or <code>:abort</code> to discard it.</li>
-<li>Build a two-sided maker strategy preview with <code>:spread &lt;width-cents&gt; &lt;shares&gt;</code>, then load either leg with <code>:spread bid</code> or <code>:spread ask</code> for the normal confirmation flow.</li>
+<li>Keep personal strategy logic in the ignored <code>private_strategies/</code> directory or a separate private repository. The Private Strategies page documents the generic proposal interface.</li>
 <li>Press <code>?</code> to see all keybindings.</li>
 </ol>
 <h2 id="useful-read-only-workflows">Useful Read-Only Workflows</h2>
@@ -832,7 +837,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>:a 1
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>:y
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>:mid
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>:spread
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>:clob-spread
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>:history 1d 30
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>:detail
 </code></pre></div>
@@ -881,30 +886,19 @@
 </code></pre></div>
 <p><code>bid</code> and <code>buy</code> are aliases for a BUY limit-order preview. <code>ask</code> and <code>sell</code> are aliases for a SELL limit-order preview. Both require <code>&lt;price&gt; &lt;shares&gt;</code>: price must be between <code>0</code> and <code>1</code>, and shares must be positive. The preview shows the selected market, outcome, exact limit price in dollars and cents, shares, notional amount, wallet alias, and live bid/ask/last values. <code>:confirm</code> is the only command that submits the exact preview with CLOB <code>create-order</code>; <code>:abort</code> discards it. A preview is invalidated if the active wallet changes.</p>
 <p>Market orders, order cancellation, approvals, balance updates, and other wallet mutations remain unavailable.</p>
-<h2 id="two-sided-maker-spread">Two-Sided Maker Spread</h2>
-<p>The initial strategy is a manual, two-sided maker quote for the selected market and YES/NO token:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>:yes
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>:spread 4 10
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>:spread bid
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>:confirm
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>:spread ask
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>:confirm
-</code></pre></div>
-<p><code>4</code> is the requested width in cents and <code>10</code> is the share size per leg. Polydesk loads the live order book, calculates its midpoint, and rounds the bid downward and ask upward to the 1c tick. The Strategy workspace displays live bid/ask/mid, requested and actual width, each quote's price, the buy-leg USDC reservation, and sell-leg inventory requirement.</p>
-<p>The CLOB bulk endpoint cannot atomically submit one buy and one sell order, so the strategy never submits both legs automatically. <code>:spread bid</code> and <code>:spread ask</code> each load exactly one limit-order preview into Orders; you inspect it and use the normal <code>:confirm</code>. Submitted legs are tracked in the strategy preview to prevent accidental repeats. This is a manual quoting aid, not an automated market maker.</p>
 <h2 id="local-state">Local State</h2>
 <p>Polydesk stores its local SQLite database at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default. Set <code>POLYDESK_DB_PATH</code> to use another local path, for example for a separate workspace or test run.</p>
 <p>The database contains watchlist display snapshots, optional legacy public account metadata, and the active wallet alias. It does not contain private keys, signing credentials, or RPC/CLOB configuration.</p>
 <p>Wallet configuration is read directly from <code>.env</code> at runtime without sourcing, evaluating, or executing its contents. The standard numbered format is:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>POLYDESK_WALLET_NUM=2
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>POLYDESK_WALLET_1=main
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>POLYDESK_WALLET_1_LABEL=Main trading
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>POLYDESK_WALLET_1_ADDRESS=0x...
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>POLYDESK_WALLET_1_PRIVATE_KEY=0x...
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>POLYDESK_WALLET_1_SIGNATURE_TYPE=proxy
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>POLYDESK_WALLET_2=research
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>POLYDESK_WALLET_2_PRIVATE_KEY=0x...
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>POLYDESK_WALLET_2_SIGNATURE_TYPE=proxy
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>POLYDESK_WALLET_NUM=2
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>POLYDESK_WALLET_1=main
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>POLYDESK_WALLET_1_LABEL=Main trading
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>POLYDESK_WALLET_1_ADDRESS=0x...
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>POLYDESK_WALLET_1_PRIVATE_KEY=0x...
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>POLYDESK_WALLET_1_SIGNATURE_TYPE=proxy
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>POLYDESK_WALLET_2=research
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>POLYDESK_WALLET_2_PRIVATE_KEY=0x...
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>POLYDESK_WALLET_2_SIGNATURE_TYPE=proxy
 </code></pre></div>
 <p><code>POLYMARKET_RPC_URL</code> and <code>POLYMARKET_CLOB_HOST</code> provide global defaults; per-wallet <code>POLYDESK_WALLET_&lt;n&gt;_RPC_URL</code> and <code>_CLOB_HOST</code> override them. Existing single-wallet <code>POLYMARKET_PRIVATE_KEY</code> configuration remains available as a wallet named <code>default</code>.</p>
 <p>The current TUI still does not sign, create orders, approve tokens, or mutate a wallet. The imported credential record is reserved for an explicitly confirmed future authenticated workflow. Use <code>:account clear</code> to remove the saved public account identity.</p>

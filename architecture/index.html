@@ -16,7 +16,7 @@
         <link rel="prev" href="../interaction/">
       
       
-        <link rel="next" href="../safety/">
+        <link rel="next" href="../strategies/">
       
       
         
@@ -433,6 +433,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../safety/" class="md-nav__link">
         
   
@@ -639,7 +666,7 @@
 <p>Network and CLI calls must not block key handling. Search, recommendations, watchlist refreshes, live order-book polling, CLOB detail, price history, discovery, and generic text queries run through a <code>ThreadPoolExecutor</code> and return into the main UI loop through completed futures. The chart history worker requests dense trade-price data; <code>plotext</code> combines its selected time window with retained live best bid/ask snapshots.</p>
 <p>Authenticated order reads use the same executor. <code>orders_worker</code> calls only <code>polymarket -o json clob orders</code> or <code>trades</code>, with the selected wallet projected to that one child process environment. It returns compact <code>OrderRecord</code> fields, never raw responses or wallet configuration, and SQLite does not store orders.</p>
 <p>Confirmed limit orders use an in-memory <code>OrderDraft</code>. <code>bid</code>/<code>buy</code> and <code>ask</code>/<code>sell</code> validate an exact price and share count against the selected market/outcome, then render a preview. Only <code>confirm</code> schedules <code>create_limit_order_worker</code>, which projects the exact draft to <code>polymarket -o json clob create-order</code>. The worker returns only order ID/status/error. Drafts, raw responses, and credentials are never persisted.</p>
-<p>The initial <code>SpreadDraft</code> is a live, manual two-sided maker strategy. <code>spread_quote_worker</code> gets one unauthenticated order-book snapshot, then the app derives a midpoint and 1c-rounded BUY/SELL quotes. A strategy preview never creates orders directly: it transfers only a selected <code>bid</code> or <code>ask</code> leg into <code>OrderDraft</code>. This is necessary because the available CLOB batch command accepts only a single side, so buy and sell legs cannot be treated as atomic. The app tracks successfully submitted legs in memory to prevent duplicates within the same preview.</p>
+<p>Strategies are intentionally outside the core architecture. The public documentation defines a small context/proposal/confirmation contract, but no strategy loader, command, scheduler, or execution policy is built in. Private implementations belong in ignored local storage or a separate private repository and must adapt proposals to the existing reviewed order flow.</p>
 <h2 id="local-persistence">Local Persistence</h2>
 <p><code>LocalStore</code> uses SQLite at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default, with <code>POLYDESK_DB_PATH</code> available as a local override. It writes the ordered watchlist as compact Market snapshots so the UI can render immediately at startup, then the normal background refresh retrieves current market state. It also retains the selected wallet alias and optional legacy public account metadata.</p>
 <p><code>wallets.py</code> reads <code>.env</code> at runtime as data and keeps wallet secrets out of SQLite. The standard source has <code>POLYDESK_WALLET_NUM</code> plus numbered wallet entries; each entry is validated for alias uniqueness and required key/signature fields. Future order code must call <code>current_wallet_env()</code> only at child-process creation, passing the selected wallet's values through the process environment rather than command-line arguments, logs, or database rows. The startup migration drops the old encrypted <code>credentials</code> table and its local key file.</p>

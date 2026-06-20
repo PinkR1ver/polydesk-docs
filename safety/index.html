@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://pinktalk.online/polydesk-docs/safety/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../strategies/">
       
       
         <link rel="next" href="../roadmap/">
@@ -339,6 +339,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Private Strategies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -577,7 +604,7 @@
 <p>Use numbered dotenv wallets for multiple accounts: <code>POLYDESK_WALLET_NUM</code>, <code>POLYDESK_WALLET_1</code>, and per-wallet <code>_PRIVATE_KEY</code>/<code>_SIGNATURE_TYPE</code> fields. <code>.env</code> is parsed as text only and never executed. Do not add API keys, session tokens, order payloads, or authenticated account responses to SQLite. The <code>credentials</code> table and companion key file from the earlier encrypted-import implementation are removed automatically at startup; <code>.env</code> is now the only Polydesk secret source.</p>
 <p>The Orders workspace passes the active wallet only to a single child-process environment for the authenticated read. Do not move those values into command-line arguments, background task status strings, logs, raw result caches, or persistent storage.</p>
 <p>Limit-order preview is the mandatory mutation boundary. <code>:bid</code>/<code>:buy</code> and <code>:ask</code>/<code>:sell</code> only create an in-memory draft; they do not call the CLI. The preview shows the exact wallet, market, outcome, price, shares, and notional. <code>:confirm</code> is the only order-submission path and must submit the reviewed draft unchanged. Do not add automatic confirmation, market-order shortcuts, cancel operations, approvals, or chained wallet mutations without a separate explicit user confirmation design.</p>
-<p>The maker-spread strategy is not an exception to this boundary. It only consumes a live read-only book snapshot and produces two quote proposals. Because CLOB's batch endpoint supports same-side orders only, Polydesk does not automatically place a buy and sell pair. Each strategy leg must be transferred to an individual preview and explicitly confirmed; partial execution and inventory exposure remain the user's responsibility.</p>
+<p>Private strategies are not an exception to this boundary. They should only produce displayable proposals and must transfer any selected action into the ordinary reviewed order flow. Do not ship strategy defaults, auto-execution loops, multi-leg assumptions, or private strategy logic in the public repository.</p>
 
 
 
