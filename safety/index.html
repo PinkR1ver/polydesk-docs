@@ -553,13 +553,13 @@
 <h2 id="current-guarantees">Current Guarantees</h2>
 <p>The current TUI:</p>
 <ul>
-<li>Does not load <code>.env</code>.</li>
-<li>Does not read <code>POLYMARKET_PRIVATE_KEY</code>.</li>
+<li>Does not load <code>.env</code> automatically.</li>
+<li>Reads <code>POLYMARKET_PRIVATE_KEY</code> only through the explicit <code>:import-env</code> action, then encrypts it for local storage without rendering it.</li>
 <li>Does not create or cancel orders.</li>
 <li>Does not approve tokens.</li>
 <li>Does not bridge, split, merge, or redeem CTF positions.</li>
 <li>Uses only read-only Polymarket CLI calls for market browsing, CLOB inspection, discovery, community data, and public data views.</li>
-<li>Stores only local watchlist snapshots and an optional public account address/label in SQLite.</li>
+<li>Stores watchlist snapshots and an optional public account address/label in standard SQLite tables; imported credentials use a separate encrypted table.</li>
 </ul>
 <h2 id="future-mutating-features">Future Mutating Features</h2>
 <p>Trading, approvals, wallet mutation, and quantitative script execution must be gated behind explicit user confirmation. Future UI should clearly show:</p>
@@ -571,8 +571,8 @@
 <li>The exact command or API call behind the operation.</li>
 </ul>
 <h2 id="secret-handling">Secret Handling</h2>
-<p>Secrets belong only in local secret storage such as <code>.env</code> or the official Polymarket CLI config. They must never be committed, copied into docs, or stored under <code>.agents/</code>.</p>
-<p>The Polydesk SQLite state database is not secret storage. Do not add private keys, signatures, API keys, session tokens, order payloads, or authenticated account responses to it.</p>
+<p>Secrets belong only in local secret storage such as <code>.env</code>, the official Polymarket CLI config, or the explicit encrypted credential store. They must never be committed, copied into docs, or stored under <code>.agents/</code>.</p>
+<p>The encrypted credentials table is the sole exception to the ordinary SQLite state database: <code>:import-env</code> allowlists the Polymarket CLI private key, signature type, RPC URL, and CLOB host, encrypts the payload with Fernet, and uses a separate local key file with <code>0600</code> permissions. Do not add API keys, session tokens, order payloads, or authenticated account responses to SQLite. The encryption key and database must remain on a private local filesystem; neither is suitable for shared machines or version control.</p>
 
 
 

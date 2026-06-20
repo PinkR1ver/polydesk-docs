@@ -634,7 +634,8 @@
 <h2 id="background-work">Background Work</h2>
 <p>Network and CLI calls must not block key handling. Search, recommendations, watchlist refreshes, live order-book polling, CLOB detail, price history, discovery, and generic text queries run through a <code>ThreadPoolExecutor</code> and return into the main UI loop through completed futures. The chart history worker requests dense trade-price data; <code>plotext</code> combines its selected time window with retained live best bid/ask snapshots.</p>
 <h2 id="local-persistence">Local Persistence</h2>
-<p><code>LocalStore</code> uses SQLite at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default, with <code>POLYDESK_DB_PATH</code> available as a local override. It writes the ordered watchlist as compact Market snapshots so the UI can render immediately at startup, then the normal background refresh retrieves current market state. The account record is restricted to an optional public EVM address and label; it is not a credential or wallet integration.</p>
+<p><code>LocalStore</code> uses SQLite at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default, with <code>POLYDESK_DB_PATH</code> available as a local override. It writes the ordered watchlist as compact Market snapshots so the UI can render immediately at startup, then the normal background refresh retrieves current market state. The account record holds an optional public EVM address and label.</p>
+<p><code>:import-env</code> is the only credential ingestion path. It allowlists the four Polymarket CLI dotenv fields and Fernet-encrypts the serialized settings before they enter SQLite. The symmetric key is stored in a separate <code>0600</code> local key file beside the database. App startup reads only the presence flag, not the decrypted credential payload; no current TUI path uses those credentials for signing or mutation.</p>
 <h2 id="future-extension-points">Future Extension Points</h2>
 <ul>
 <li>Account layout.</li>

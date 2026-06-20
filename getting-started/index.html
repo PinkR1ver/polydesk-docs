@@ -741,7 +741,8 @@
 <li>Run <code>:chart</code> for a full-height chart. It defaults to a 15-minute window with historical trade price plus live Bid/Ask/Deal overlays. Use <code>[</code> / <code>]</code> to move through common ranges, or specify any valid duration, for example <code>:chart 10m</code>, <code>:chart 2h</code>, or <code>:chart 3d</code>. Use <code>:chart max</code> or <code>:chart all</code> for all available history. Run <code>:book</code> to return to the depth table.</li>
 <li>The focused navigation pane has the highlighted selection.</li>
 <li>Press <code>x</code> while Watchlist owns navigation focus to remove its selected market. <code>:rm &lt;n|id|slug&gt;</code> remains available.</li>
-<li>Optionally save a public account identity with <code>:account &lt;0x-address&gt; [label]</code>. This is local display metadata only; no private key or wallet permission is stored.</li>
+<li>Optionally save a public account identity with <code>:account &lt;0x-address&gt; [label]</code>. This command writes public display metadata only and does not grant wallet permission.</li>
+<li>To import the Polymarket CLI configuration from the local <code>.env</code>, run <code>:import-env</code>. It is an explicit action and stores the allowlisted values as encrypted local state; it does not enable trading.</li>
 <li>Press <code>?</code> to see all keybindings.</li>
 </ol>
 <h2 id="useful-read-only-workflows">Useful Read-Only Workflows</h2>
@@ -780,9 +781,10 @@
 <p>These commands are public/read-only. <code>:holders</code> and <code>:oi</code> default to the selected market's condition ID when one is available.</p>
 <h2 id="local-state">Local State</h2>
 <p>Polydesk stores its local SQLite database at <code>~/.local/share/polydesk/polydesk.sqlite3</code> by default. Set <code>POLYDESK_DB_PATH</code> to use another local path, for example for a separate workspace or test run.</p>
-<p>The database contains watchlist display snapshots and an optional public EVM address plus label. It never stores a private key, signature, API key, order, or trading permission. Use <code>:account clear</code> to remove the saved account identity.</p>
+<p>The database contains watchlist display snapshots and an optional public EVM address plus label. <code>:import-env [path]</code> explicitly imports only <code>POLYMARKET_PRIVATE_KEY</code>, <code>POLYMARKET_SIGNATURE_TYPE</code>, <code>POLYMARKET_RPC_URL</code>, and <code>POLYMARKET_CLOB_HOST</code>; the credential JSON is Fernet-encrypted before being written to SQLite. Its separate local encryption key has <code>0600</code> permissions beside the database. The importer does not evaluate dotenv expressions or execute any file content.</p>
+<p>The current TUI still does not sign, create orders, approve tokens, or mutate a wallet. The imported credential record is reserved for an explicitly confirmed future authenticated workflow. Use <code>:account clear</code> to remove the saved public account identity.</p>
 <h2 id="read-only-scope">Read-Only Scope</h2>
-<p>The current TUI does not load <code>.env</code>, does not read private keys, and does not submit orders. It only calls read-only Polymarket CLI commands for markets, order books, CLOB data, discovery, community data, and public on-chain-style data exposed by the CLI.</p>
+<p>The current TUI does not load <code>.env</code> automatically and does not submit orders. Apart from explicit encrypted credential import, it only calls read-only Polymarket CLI commands for markets, order books, CLOB data, discovery, community data, and public on-chain-style data exposed by the CLI.</p>
 
 
 
